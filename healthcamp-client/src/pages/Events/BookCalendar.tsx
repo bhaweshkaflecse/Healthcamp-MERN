@@ -161,11 +161,11 @@ const BookCalendar = () => {
       (slot) => slot.sdate === formattedDate
     );
 
-    const isNonBookableDate = isInRange && !isBookable && data[0].eventCalendar.some(
+    const isNonBookableDate = isInRange && !isBookable && (data?.[0]?.eventCalendar?.some(
       (event: any) =>
         moment(event.date).format("YYYY-MM-DD") === formattedDate &&
         !event.isBookable
-    );
+    ) ?? false);
 
     const style = {
       backgroundColor: !isInRange

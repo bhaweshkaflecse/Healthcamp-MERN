@@ -352,6 +352,10 @@ const KycApprove = (props: Partial<DropzoneProps>) => {
     return <div>Loading...</div>;
   }
 
+  if (clientData?.kyc?.kycStatus === "pending" || clientData?.kyc?.kycStatus === "approved") {
+    return null;
+  }
+
   const documentTypeOptions = [
     { value: "citizenship", label: "Citizenship" },
     { value: "passport", label: "Passport" },
