@@ -2,7 +2,7 @@
   "id": "FEAT-001",
   "type": "fix",
   "description": "Dashboard carousel optimization and button fixes (Tasks 1 & 2). Fix the carousel aspect ratio to 4:1 with object-fit:cover for images, add upload helper text, and fix the 'Booked Events' button navigation.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "In healthcamp-client/src/Home.tsx, modify the Carousel component: (a) wrap the carousel in a container with a strict 4:1 aspect ratio using CSS (aspect-ratio: 4/1 or padding-top trick), (b) change the Image component inside Carousel.Slide from h={470} to use 100% height with object-fit: cover so images fill the container without distortion, (c) add a Text element below the carousel with helper text: 'Suggested image size: 1200x300px for better fit without cropping.'",
     "In healthcamp-client/src/Home.tsx, fix the 'Available Package' button: move the onClick handler from the MdArrowCircleRight icon to the Button itself (currently the icon has the onClick but the Button is the clickable element with disabled logic).",
@@ -21,5 +21,5 @@
     "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "NODE_OPTIONS env var causes proxy-bootstrap.js error; must unset NODE_OPTIONS before running npx tsc --noEmit. TypeScript compilation passes cleanly with the changes."
 }
