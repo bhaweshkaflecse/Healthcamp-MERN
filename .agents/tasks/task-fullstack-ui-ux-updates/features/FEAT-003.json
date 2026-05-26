@@ -1,0 +1,25 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Dynamic package counts (Task 4). Add dynamic total counts next to the package tab headings in Packages.tsx based on fetched data array lengths.",
+  "status": "completed",
+  "steps": [
+    "In healthcamp-client/src/pages/packages/Packages.tsx, the Available Packages tab gets data from the 'packages' query (data?.packages array). For this tab, display the count as 'Available Packages (X)' where X is data?.packages?.length or 0.",
+    "For the Approved, Pending, and Rejected tabs, the count comes from the selectedPackage array fetched via getPackageByStatus. However, there's a challenge: the count for each status requires fetching data for that status. Implement one of these approaches: (a) Fetch counts for all statuses upfront using separate queries, or (b) Display the count only for the currently active tab from selectedPackage?.length.",
+    "The optimal approach given the existing code: add separate useQuery hooks for each status (approved, pending, reject) that fetch the counts. Display them in the tab labels: 'Approved Packages (X)', 'Pending Packages (X)', 'Rejected Packages (X)'. Use the existing getPackageByStatus endpoint.",
+    "Update each Tabs.Tab value to include the count: e.g., <Tabs.Tab value='available'>Available Packages ({data?.packages?.length || 0})</Tabs.Tab>"
+  ],
+  "acceptance_criteria": [
+    "Available Packages tab shows dynamic count: 'Available Packages (X)'",
+    "Approved Packages tab shows dynamic count: 'Approved Packages (X)'",
+    "Pending Packages tab shows dynamic count: 'Pending Packages (X)'",
+    "Rejected Packages tab shows dynamic count: 'Rejected Packages (X)'",
+    "Counts update dynamically based on actual data array lengths",
+    "Counts show 0 when no data is available for that status"
+  ],
+  "verification": [
+    "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
+  ],
+  "blocked_reason": null,
+  "findings": "Implementation straightforward. Added three separate useQuery hooks for approved, pending, and reject statuses. TypeScript compilation passes cleanly with no errors."
+}
