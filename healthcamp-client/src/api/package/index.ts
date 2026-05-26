@@ -1,0 +1,5 @@
+export const getpackage = '/package'
+export const getSelectedPackageAPI = '/package'
+export const getIndividualPackageAPI = '/package'
+export const paymentEnrollmentAPI = '/enrollment'
+export const getServiceOfPackageStatus ='/assign-calendar/service-of-package'

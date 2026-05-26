@@ -1,0 +1,23 @@
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: healthcamp-mongo
+    ports:
+      - "27017:27017"
+
+  redis:
+    image: redis:latest
+    container_name: healthcamp-redis
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:latest
+    container_name: healthcamp-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: healthcamp
+    ports:
+      - "5432:5432"

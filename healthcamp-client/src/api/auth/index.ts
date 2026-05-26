@@ -1,0 +1,14 @@
+export const generateOTP = "/auth/generate-OTP?authPurpose=true";
+export const verifyOTP = "/auth/verify-OTP";
+export const signin = "/auth/signin";
+export const signout = "/auth/signout";
+export const registerCliet = "/client/create";
+export const kyc = "/kyc/add";
+export const getAccessToken = "/auth/refresh-token";
+export const getMyDetail = "/auth/get-my-info";
+export const forgetPass = "/auth/forget-password";
+export const updatePass = "/auth/reset-password";
+export const logout = "/auth/signout";
+export const clientinfo = "/client/info";
+export const getNepalProvince = "/get-nepal-province";
+export const getDistrict = "/get-nepal-district";

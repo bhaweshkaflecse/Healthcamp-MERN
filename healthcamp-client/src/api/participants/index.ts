@@ -1,0 +1,11 @@
+export const addparticipants = "/participant";
+export const particpantFileUpload = "/particpant/participant-file-upload";
+export const getParticipants = "/participant/client";
+export const getNonEnrolledParticipants = "/participant/unique-participant-of-event";
+export const deleteParticipant = "/participant";
+export const getOneParticipant = "/participant";
+export const downloadFile = "/participant/sample-file";
+export const getSampleFile = "/participant/get-sample-file-to-upload-participant";
+export const editParticipants = '/participant/update-participant';
+export const bulkUploadParticipants = '/participant/bulk-upload-participant';
+export const addparticipantInEventAPI = '/participant/add-participant-in-event'

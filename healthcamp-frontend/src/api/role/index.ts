@@ -1,0 +1,10 @@
+export const createrole = '/admin/create';
+export const createTechnicalMember = '/technical-member'
+export const getbydepartment = '/admin/by-dept'
+export const getalladmin = '/admin'
+export const deleteAdminAPI = '/admin'
+export const updateAdmnAPI = '/admin'
+export const getAdminInfo = '/admin/info'
+export const updateAdminInfo = '/admin'
+export const updateAdminProfile = '/admin/update-profile'
+export const getTechnicalMembers = "/technical-member";

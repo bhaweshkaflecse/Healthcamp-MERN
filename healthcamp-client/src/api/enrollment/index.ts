@@ -1,0 +1,7 @@
+export const getPackageByStatus = '/enrollment/package-by-client-status'
+export const getUrBookedEvents = '/booking/client-booking'
+export const getReportParticipantsLists = '/enrollment/all-event'
+export const getEnrollParticipants = '/enrollment/all-participant'
+export const postForwardReport = '/report/forward-report'
+export const reportParticipant ='booking/event-participant'
+export const postForwardReportmachis = '/report/forward-participant-report'

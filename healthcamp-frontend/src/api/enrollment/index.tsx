@@ -1,0 +1,5 @@
+export const getTeamPackagesAPI = '/enrollment/find-by-status'
+export const getIndividualPackageAPI = '/enrollment'
+export const verifyPackageAPI = '/enrollment/verify-package'
+export const rejectPackageAPI = '/enrollment/reject-package'
+export const showPackageAPI = '/enrollment'

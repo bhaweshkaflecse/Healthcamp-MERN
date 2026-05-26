@@ -1,0 +1,13 @@
+export const generateOTPForAuth = "/auth/generate-OTP?authPurpose=true";
+export const verifyOTP = "/auth/verify-OTP";
+export const signin = "/auth/signin";
+export const signout = "/auth/signout";
+export const registerCliet = "/client/create";
+export const kyc = "/kyc/add";
+export const getAccessToken = "/auth/refresh-token";
+export const getmyinfo = '/auth/get-my-info'
+export const getMyDetail = "/auth/get-my-info";
+export const adminSignOut = '/auth/signout';
+export const updateAdminPassword = '/auth/update-password';
+export const forgetPassword = '/auth/forget-password';
+export const updatePassword = '/auth/reset-password';

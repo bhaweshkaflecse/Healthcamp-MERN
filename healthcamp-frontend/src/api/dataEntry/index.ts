@@ -1,0 +1,15 @@
+export const getClientDetails = "/report/get-participant-details";
+export const getIfParticipantsExistsAPI = '/participant/get-if-participant-exist-in-event';
+export const getAllServiceOfEventAPI = '/report/get-all-service-of-event';
+export const reportPublishAPI = '/report/is-report-published';
+export const publishReportAPI = '/report/publish-report';
+export const getAttributesServiceAPI = '/report/get-all-attributes-of-service';
+export const postAttributeAPI = '/report/entry-report';
+export const getAllParticipantsOfReportAPI = '/report/get-all-participants-of-report';
+export const getReportOfIndividualParticipantAPI = '/report/get-report-of-participant';
+export const updateReportStatusAPI = '/report/update-report-status';
+export const updateReportAPI = '/report/update-result';
+export const deleteParticipantAPI = '/report/delete-result';
+export const deleteResultAPI = 'report/delete-result'
+export const getParticipant ="participant/event"
+export const publishReportToTeamLead = 'report/publish-report'

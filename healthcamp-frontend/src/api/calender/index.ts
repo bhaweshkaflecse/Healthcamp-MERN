@@ -1,0 +1,11 @@
+export const createCalendar = "/calender";
+export const getCalendarByServiceId = "/calender";
+export const isDateAdded = "/calender/is-date-added";
+export const createDateSlot = "/calender/date-slot";
+export const updateDateSlot = "/calender/date-slot";
+export const serviceByCalendar = "/service/by-calendar";
+export const ClientEnrollmentByPackage = "/enrollment/clients-by-package";
+export const assignCalendar = "/assign-calendar";
+export const getAssignedCalendar = "/assign-calendar";
+export const updateCalendarapi = "/assign-calendar";
+export const eventBookedDate = "/event/service";
