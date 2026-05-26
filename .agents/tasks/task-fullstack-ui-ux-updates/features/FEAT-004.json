@@ -21,5 +21,5 @@
     "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
   ],
   "blocked_reason": null,
-  "findings": "Implementation straightforward. The kycStatus field can be null/undefined, 'pending', 'approved', or 'reject'. The modal in Home.tsx now renders different content for each non-approved state. The KycApprove form page now redirects to /kyc-details if kycStatus is pending or approved."
+  "findings": "Implementation straightforward. The kycStatus field can be null/undefined, 'pending', 'approved', or 'reject'. The modal in Home.tsx now renders different content for each non-approved state. The KycApprove form page now redirects to /kyc-details if kycStatus is pending or approved. Post-review fix: added early return (return null) before rendering the form when kycStatus is pending or approved to prevent flash-of-content before the useEffect redirect fires."
 }
