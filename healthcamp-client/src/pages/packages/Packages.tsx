@@ -54,6 +54,30 @@ const Packages = () => {
     queryFn: getPackageStatus,
   });
 
+  const { data: approvedData } = useQuery({
+    queryKey: ["packageCount/approved"],
+    queryFn: async () => {
+      const resp = await axiosPrivateInstance.get(`${getPackageByStatus}?status=approved`);
+      return resp.data;
+    },
+  });
+
+  const { data: pendingData } = useQuery({
+    queryKey: ["packageCount/pending"],
+    queryFn: async () => {
+      const resp = await axiosPrivateInstance.get(`${getPackageByStatus}?status=pending`);
+      return resp.data;
+    },
+  });
+
+  const { data: rejectedData } = useQuery({
+    queryKey: ["packageCount/reject"],
+    queryFn: async () => {
+      const resp = await axiosPrivateInstance.get(`${getPackageByStatus}?status=reject`);
+      return resp.data;
+    },
+  });
+
   console.log('selected package', selectedPackage)
 
   if (isLoadingPackage) {
@@ -77,7 +101,7 @@ const Packages = () => {
       <Paper mt={10} p={20} withBorder>
         <Tabs defaultValue={activeTab}>
           <Tabs.List>
-            <Tabs.Tab value="available">Available Packages</Tabs.Tab>
+            <Tabs.Tab value="available">Available Packages ({data?.packages?.length || 0})</Tabs.Tab>
             <Tabs.Tab
               onClick={() => {
                 setStatus("approved");
@@ -85,7 +109,7 @@ const Packages = () => {
               }}
               value="approved"
             >
-              Approved Packages
+              Approved Packages ({approvedData?.length || 0})
             </Tabs.Tab>
             <Tabs.Tab
               onClick={() => {
@@ -94,7 +118,7 @@ const Packages = () => {
               }}
               value="pending"
             >
-              Pending Packages
+              Pending Packages ({pendingData?.length || 0})
             </Tabs.Tab>
             <Tabs.Tab
               onClick={() => {
@@ -103,7 +127,7 @@ const Packages = () => {
               }}
               value="reject"
             >
-              Rejected Packages
+              Rejected Packages ({rejectedData?.length || 0})
             </Tabs.Tab>
           </Tabs.List>
 
