@@ -88,22 +88,30 @@ const Home = () => {
 
   return (
     <>
-      <Carousel slideSize="100%" slideGap="xl" loop withIndicators>
-        {data?.map((item) => (
-          <Carousel.Slide>
-            <Image h={470} src={item.img} radius="lg" />
-          </Carousel.Slide>
-        ))}
-      </Carousel>
+      <Box style={{ aspectRatio: "4 / 1", overflow: "hidden", borderRadius: "var(--mantine-radius-lg)" }}>
+        <Carousel slideSize="100%" slideGap="xl" loop withIndicators h="100%">
+          {data?.map((item, index) => (
+            <Carousel.Slide key={index}>
+              <Image
+                src={item.img}
+                radius="lg"
+                style={{ objectFit: "cover", width: "100%", height: "100%" }}
+              />
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      </Box>
+      <Text size="sm" c="dimmed" ta="center" mt={8}>
+        Suggested image size: 1200x300px for better fit without cropping.
+      </Text>
       <Group justify="center" gap={30}>
         <Paper radius="lg" mt={20} p={20} shadow="xl" w={500}>
           <Group justify="space-between">
             <Text fw={600} c={"primary.1"}>
               Available Package
             </Text>
-            <Button variant="light" disabled={kycState}>
+            <Button variant="light" disabled={kycState} onClick={() => navigate("/availabe-package")}>
               <MdArrowCircleRight
-                onClick={() => navigate("/availabe-package")}
                 size={25}
                 color="#252C61"
               />
@@ -137,7 +145,7 @@ const Home = () => {
             <Text fw={600} c={"primary.1"}>
               Booked Events
             </Text>
-            <Button variant="light" disabled={kycState}>
+            <Button variant="light" disabled={kycState} onClick={() => navigate("/events")}>
               <MdArrowCircleRight size={25} color="#252B61" />
             </Button>
           </Group>

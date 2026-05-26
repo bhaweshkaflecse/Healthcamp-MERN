@@ -1,0 +1,25 @@
+{
+  "id": "FEAT-001",
+  "type": "fix",
+  "description": "Dashboard carousel optimization and button fixes (Tasks 1 & 2). Fix the carousel aspect ratio to 4:1 with object-fit:cover for images, add upload helper text, and fix the 'Booked Events' button navigation.",
+  "status": "in_progress",
+  "steps": [
+    "In healthcamp-client/src/Home.tsx, modify the Carousel component: (a) wrap the carousel in a container with a strict 4:1 aspect ratio using CSS (aspect-ratio: 4/1 or padding-top trick), (b) change the Image component inside Carousel.Slide from h={470} to use 100% height with object-fit: cover so images fill the container without distortion, (c) add a Text element below the carousel with helper text: 'Suggested image size: 1200x300px for better fit without cropping.'",
+    "In healthcamp-client/src/Home.tsx, fix the 'Available Package' button: move the onClick handler from the MdArrowCircleRight icon to the Button itself (currently the icon has the onClick but the Button is the clickable element with disabled logic).",
+    "In healthcamp-client/src/Home.tsx, fix the 'Booked Events' button: add an onClick handler to navigate to '/events' when clicked (currently has no navigation handler). The button should navigate to the events page which shows booked events.",
+    "Polish both buttons (Available Package and Booked Events) to have consistent styling: both should use the same variant, size, and color scheme. Ensure both buttons pass the kycState disabled prop consistently."
+  ],
+  "acceptance_criteria": [
+    "Carousel container is constrained to a 4:1 aspect ratio",
+    "Images inside carousel use object-fit: cover to avoid distortion",
+    "Helper text 'Suggested image size: 1200x300px for better fit without cropping.' is displayed near the carousel",
+    "Booked Events button navigates to /events when clicked",
+    "Available Package button onClick is on the Button element itself, not just the icon",
+    "Both dashboard buttons have cohesive, consistent styling"
+  ],
+  "verification": [
+    "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
