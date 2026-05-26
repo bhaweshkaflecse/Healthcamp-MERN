@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "fix",
   "description": "Early validation on calendar booking (Task 3). Disable already-booked dates/slots on the calendar UI in BookCalendar.tsx so users cannot select them or proceed to the form page.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "In healthcamp-client/src/pages/Events/BookCalendar.tsx, analyze how the event calendar data is structured. The data comes from /assign-calendar/for-service/:enrollId?serviceId=X and returns an array with eventCalendar entries that have isBookable boolean and date fields.",
     "Modify the selectSlot function in BookCalendar.tsx to check: (a) if the date's isBookable is false, show a toast and return early (this already partially exists), (b) Also check the booking status - cross-reference with existing bookings data. If a slot for that date is already booked (status booked), prevent selection.",
@@ -21,5 +21,5 @@
     "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "All four changes implemented successfully. TypeScript compilation passes cleanly. The isBookable check was moved before slot generation in selectSlot. Non-bookable dates now have pointer-events:none. Book Event button validates slots before navigation. Modal disables select buttons when slots are consumed."
 }
