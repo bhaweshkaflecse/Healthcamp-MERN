@@ -194,6 +194,16 @@ const KycApprove = (props: Partial<DropzoneProps>) => {
     city: "",
   });
 
+  // Guard: redirect away if KYC already submitted or approved
+  useEffect(() => {
+    if (clientData) {
+      const kycStatus = clientData?.kyc?.kycStatus;
+      if (kycStatus === "pending" || kycStatus === "approved") {
+        navigate("/kyc-details");
+      }
+    }
+  }, [clientData, navigate]);
+
   // Initialize form data with client data
   useEffect(() => {
     if (clientData) {

@@ -119,19 +119,62 @@ const Home = () => {
 
             {kycState && (
               <Modal opened={opened} onClose={close}>
-                <Center>
-                  <Text ta="center" c="red">
-                    Your KYC is not verified. Please complete the verification
-                    process.
-                  </Text>
-                </Center>
-                <Button
-                  onClick={() => navigate("/kycstatus")}
-                  mt="xl"
-                  variant="light"
-                >
-                  Click here to fill up the KYC
-                </Button>
+                {(!kycData?.kyc?.kycStatus) && (
+                  <>
+                    <Center>
+                      <Text ta="center" c="red">
+                        Your KYC is not verified. Please complete the verification
+                        process.
+                      </Text>
+                    </Center>
+                    <Button
+                      onClick={() => navigate("/kycstatus")}
+                      mt="xl"
+                      variant="light"
+                    >
+                      Click here to fill up the KYC
+                    </Button>
+                  </>
+                )}
+                {kycData?.kyc?.kycStatus === "pending" && (
+                  <>
+                    <Center>
+                      <Text ta="center" c="blue">
+                        Your KYC has been submitted and is pending admin approval.
+                        Please wait for verification.
+                      </Text>
+                    </Center>
+                    <Button
+                      onClick={() => navigate("/kyc-details")}
+                      mt="xl"
+                      variant="light"
+                    >
+                      View KYC Status
+                    </Button>
+                  </>
+                )}
+                {kycData?.kyc?.kycStatus === "reject" && (
+                  <>
+                    <Center>
+                      <Text ta="center" c="red">
+                        Your KYC was rejected. Please re-initiate the verification
+                        process.
+                      </Text>
+                    </Center>
+                    {kycData?.kyc?.comment && (
+                      <Text ta="center" c="dimmed" mt="sm" size="sm">
+                        Reason: {kycData.kyc.comment}
+                      </Text>
+                    )}
+                    <Button
+                      onClick={() => navigate("/kycstatus")}
+                      mt="xl"
+                      variant="light"
+                    >
+                      Re-initiate KYC
+                    </Button>
+                  </>
+                )}
               </Modal>
             )}
           </Group>
