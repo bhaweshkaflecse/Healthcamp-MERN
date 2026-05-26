@@ -99,7 +99,16 @@ const BookCalendar = () => {
       new Date(realDate) > new Date(endDate)
     ) {
       toast.error("Selected date is outside the bookable range.");
-      return; // Exit early if the date is invalid
+      return;
+    }
+
+    // Check isBookable BEFORE generating slots
+    const calendar = data[0].eventCalendar.filter(
+      (cal: any) => cal.date === realDate
+    );
+    if (calendar[0]?.isBookable === false) {
+      toast.error("This slot is not bookable");
+      return;
     }
 
     const items = data[0].eventCalendar.filter(
@@ -117,13 +126,6 @@ const BookCalendar = () => {
       setSlot([{ id: `${realDate}`, date: realDate }]);
     }
 
-    const calendar = data[0].eventCalendar.filter(
-      (cal: any) => cal.date === realDate
-    );
-    if (calendar[0]?.isBookable === false) {
-      toast.error("This slot is not bookable");
-      return;
-    }
     open();
   };
 
@@ -159,6 +161,12 @@ const BookCalendar = () => {
       (slot) => slot.sdate === formattedDate
     );
 
+    const isNonBookableDate = isInRange && !isBookable && data[0].eventCalendar.some(
+      (event: any) =>
+        moment(event.date).format("YYYY-MM-DD") === formattedDate &&
+        !event.isBookable
+    );
+
     const style = {
       backgroundColor: !isInRange
         ? "#E5E5E5"
@@ -166,15 +174,11 @@ const BookCalendar = () => {
         ? "yellow"
         : isBookable
         ? "white"
-        : data[0].eventCalendar.some(
-            (event: any) =>
-              moment(event.date).format("YYYY-MM-DD") === formattedDate &&
-              !event.isBookable
-          )
+        : isNonBookableDate
         ? "red"
         : "white",
-      pointerEvents: !isInRange ? "none" : "auto",
-      cursor: !isInRange ? "not-allowed" : "pointer",
+      pointerEvents: (!isInRange || isNonBookableDate) ? "none" : "auto",
+      cursor: (!isInRange || isNonBookableDate) ? "not-allowed" : "pointer",
       color: !isInRange ? "red" : "inherit",
     };
 
@@ -254,11 +258,24 @@ const BookCalendar = () => {
         <Flex justify="end" mt="md">
           <Button
             disabled={numberOfSlots !== data?.[0]?.requestedSlot}
-            onClick={() =>
+            onClick={() => {
+              // Validate all selected slots are still bookable
+              const hasInvalidSlot = Array.from(selectedSlots).some(
+                (slot) => {
+                  const calEntry = data[0].eventCalendar.find(
+                    (cal: any) => cal.date === slot.sdate
+                  );
+                  return calEntry && calEntry.isBookable === false;
+                }
+              );
+              if (hasInvalidSlot) {
+                toast.error("Some selected dates are no longer bookable. Please reselect.");
+                return;
+              }
               navigate("/calender-form", {
                 state: { selectedSlots, data, enrollPackageId },
-              })
-            }
+              });
+            }}
             size="lg"
           >
             Book Event
@@ -278,7 +295,22 @@ const BookCalendar = () => {
       >
         <Paper p="xs" withBorder>
           <Text ta="center">Select the slots.</Text>
-          {slot.map((s, index) => (
+          {slot.map((s, index) => {
+            // Check how many slots for this date are already selected
+            const slotsSelectedForDate = Array.from(selectedSlots).filter(
+              (sel) => sel.sdate === s.date
+            ).length;
+            const calEntry = data[0].eventCalendar.find(
+              (cal: any) => cal.date === s.date
+            );
+            const maxSlots = calEntry?.bookableSlot ?? Infinity;
+            const isAlreadySelected = Array.from(selectedSlots).some(
+              (slot) => slot.slotId === s.id && slot.sdate === s.date
+            );
+            // Disable if max slots consumed and this slot is not already selected
+            const isDisabled = !isAlreadySelected && slotsSelectedForDate >= maxSlots;
+
+            return (
             <Flex
               key={index}
               direction="column"
@@ -290,9 +322,7 @@ const BookCalendar = () => {
                 p="xs"
                 justify="space-between"
                 bg={
-                  Array.from(selectedSlots).some(
-                    (slot) => slot.slotId === s.id && slot.sdate === s.date
-                  )
+                  isAlreadySelected
                     ? "#d0d0d0"
                     : "#e5ecfa"
                 }
@@ -302,17 +332,17 @@ const BookCalendar = () => {
                   <Button
                     onClick={() => handleButtonClick(s.id, s.date)}
                     variant="default"
+                    disabled={isDisabled}
                   >
-                    {Array.from(selectedSlots).some(
-                      (slot) => slot.slotId === s.id && slot.sdate === s.date
-                    )
+                    {isAlreadySelected
                       ? "Deselect"
                       : "Select"}
                   </Button>
                 </Flex>
               </Group>
             </Flex>
-          ))}
+            );
+          })}
           <Flex justify="end" mt="md"></Flex>
         </Paper>
       </Modal>

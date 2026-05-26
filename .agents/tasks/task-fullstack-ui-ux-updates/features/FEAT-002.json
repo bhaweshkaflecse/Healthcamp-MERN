@@ -1,0 +1,25 @@
+{
+  "id": "FEAT-002",
+  "type": "fix",
+  "description": "Early validation on calendar booking (Task 3). Disable already-booked dates/slots on the calendar UI in BookCalendar.tsx so users cannot select them or proceed to the form page.",
+  "status": "in_progress",
+  "steps": [
+    "In healthcamp-client/src/pages/Events/BookCalendar.tsx, analyze how the event calendar data is structured. The data comes from /assign-calendar/for-service/:enrollId?serviceId=X and returns an array with eventCalendar entries that have isBookable boolean and date fields.",
+    "Modify the selectSlot function in BookCalendar.tsx to check: (a) if the date's isBookable is false, show a toast and return early (this already partially exists), (b) Also check the booking status - cross-reference with existing bookings data. If a slot for that date is already booked (status booked), prevent selection.",
+    "Update the dayPropGetter function to visually mark already-booked dates as disabled (red background already exists for non-bookable). Ensure that dates where isBookable is false have pointer-events: none and cursor: not-allowed, making them truly unclickable.",
+    "In the slot selection modal, add validation: when a user selects a slot, check if that specific slot is already booked. If the slot count matches booked count for that date, disable the select button for that slot.",
+    "Ensure the 'Book Event' button at the bottom only enables when all selected slots are actually available (not just matching count). The current check (numberOfSlots !== data?.[0]?.requestedSlot) remains, but add an additional guard that prevents navigation if any selected date has isBookable=false."
+  ],
+  "acceptance_criteria": [
+    "Dates marked as non-bookable (isBookable=false) in the calendar data are visually disabled with red background and cannot be clicked",
+    "Attempting to select a non-bookable date shows a toast error and does not open the slot modal",
+    "Dates outside the start-end range remain disabled with gray background and pointer-events: none",
+    "The Book Event button is disabled if any selected slot corresponds to a non-bookable date",
+    "Users cannot proceed to the /calender-form page with invalid slot selections"
+  ],
+  "verification": [
+    "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
