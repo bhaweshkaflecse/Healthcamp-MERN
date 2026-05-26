@@ -2,7 +2,7 @@
   "id": "FEAT-004",
   "type": "fix",
   "description": "KYC flow update (Task 5). Once a client submits KYC, show a 'KYC Pending' UI state instead of the blank intake form. The logic should check KYC status on the dashboard and redirect accordingly.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "In healthcamp-client/src/Home.tsx, the existing modal already checks kycData?.kyc?.kycStatus !== 'approved' and shows a modal prompting to fill KYC. Modify the modal behavior: if kycStatus is 'pending', the modal should show 'Your KYC is pending approval' with a button to view KYC details (navigate to /kyc-details) instead of the current 'Click here to fill up the KYC' button that goes to /kycstatus.",
     "In healthcamp-client/src/pages/kyc/KycStatus.tsx, the page already handles the display of KYC status. The 'Initiate KYC Verification' button is already disabled when kycStatus is 'pending' or 'approved'. Ensure this continues working correctly.",
@@ -21,5 +21,5 @@
     "Run npx tsc --noEmit in healthcamp-client directory to verify no TypeScript errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Implementation straightforward. The kycStatus field can be null/undefined, 'pending', 'approved', or 'reject'. The modal in Home.tsx now renders different content for each non-approved state. The KycApprove form page now redirects to /kyc-details if kycStatus is pending or approved."
 }
