@@ -38,21 +38,30 @@ export class AuthService {
   ) { }
 
   async signInAdmin(body: signInDTO) {
-  const existingAdmin = await this.adminRepository.findOne({
-      where: { email:body.email },
+    console.log("--- ADMIN LOGIN ATTEMPT ---");
+    console.log("Email:", body.email);
+
+    const existingAdmin = await this.adminRepository.findOne({
+      where: { email: body.email },
     });
-    
+    console.log("1. Found in Postgres?:", existingAdmin ? "YES" : "NO");
+
     if (!existingAdmin) {
-      throw new UnauthorizedException("Credential doesn't match")
+      throw new UnauthorizedException("Admin not found in PostgreSQL")
     } else {
       const existingAuth = await this.authModel.findOne({ userID: existingAdmin.id })
+      console.log("2. Found in MongoDB?:", existingAuth ? "YES" : "NO");
+
       if (!existingAuth) {
-        throw new UnauthorizedException("Credential doesn't match")
+        throw new UnauthorizedException("Auth record not found in MongoDB")
       } else {
         const status = await this.hash.verifyHashing(existingAuth.password, body.password)
+        console.log("3. Password Hash Match?:", status);
+
         if (!status) {
-          throw new UnauthorizedException("Credential doesn't match")
+          throw new UnauthorizedException("Password Hash Failed")
         }
+        
         const tokens = {
           acessToken: await this.Token.generateAcessToken({ sub: existingAdmin.id, role: existingAdmin.department }),
           refreshToken: await this.Token.generateRefreshToken({ sub: existingAdmin.id, role: existingAdmin.department }),

@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore from "../providers/context/useAuthStore";
 
 // Replace the hardcoded IPs with your .env variable or localhost
-export const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+export const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3000/api/v1";
 export const frontURL = "http://localhost:5173"; 
 
 export default axios.create({

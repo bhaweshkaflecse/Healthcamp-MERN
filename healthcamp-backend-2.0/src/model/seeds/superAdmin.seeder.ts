@@ -6,22 +6,9 @@ import { MongoClient } from 'mongodb';
 import typeormConfig from 'src/config/seeder.config';
 import { adminEntity } from '../sql/admin.entity';
 
-const truncateAdminTable = async (dataSource: DataSource) => {
-  try {
-    if (!dataSource.isInitialized) {
-      await dataSource.initialize();
-    }
-
-    const tableName = dataSource.getMetadata(adminEntity).tableName;
-    await dataSource.query(`TRUNCATE TABLE "${tableName}" CASCADE`);
-    console.log(`✅ Table "${tableName}" truncated successfully with CASCADE.`);
-  } catch (error) {
-    console.error('❌ Error during truncating admin table:', error);
-  }
-};
-
 async function runSuperAdminSeeder() {
-  const businessHeadEmail = process.env.Business_Head_Email;
+  // Pulling securely from environment variables for production
+  const businessHeadEmail = process.env.Business_Head_Email;  
   const mongoUri = process.env.MONGO_CONNECTION_STRING;
 
   if (!businessHeadEmail || !mongoUri) {
@@ -39,21 +26,22 @@ async function runSuperAdminSeeder() {
     const db = mongoClient.db();
     const authCollection = db.collection('auths');
 
-    // Ensure 'auths' collection exists and is cleared
+    // Ensure 'auths' collection exists in MongoDB
     const collections = await db.listCollections({ name: 'auths' }).toArray();
     if (collections.length === 0) {
       await db.createCollection('auths');
       console.log('🆕 "auths" collection created in MongoDB.');
     }
+    
     const adminRepository = dataSource.getRepository(adminEntity);
 
     const isAdminExist = await adminRepository.findOne({
       where: {
-        email: 'businesshead@gmail.com',
+        email: businessHeadEmail,
         department: deptType.businessHead
       }
     });
-    console.log(isAdminExist)
+    
     if (!isAdminExist) {
       const admin = await adminRepository.findOne({
         where: {
@@ -61,19 +49,14 @@ async function runSuperAdminSeeder() {
         }
       });
       if (admin) {
-        adminRepository.update({ id: admin.id }, { email: businessHeadEmail });
-        console.log("Bussiness head email updated.");
-        return
+        await adminRepository.update({ id: admin.id }, { email: businessHeadEmail });
+        console.log("Business head email updated.");
       }
-
     }
 
-
-    await authCollection.deleteMany({});
-    console.log('🧹 "auths" collection cleared.');
-
-    // Truncate admin table in PostgreSQL
-    await truncateAdminTable(dataSource);
+    // Surgical delete: Clears ONLY the superadmin so Postgres and Mongo sync perfectly,
+    // without wiping out the rest of your database.
+    await adminRepository.delete({ email: businessHeadEmail });
 
     const newAdmin = adminRepository.create({
       name: 'Business Head',

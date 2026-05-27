@@ -23,7 +23,8 @@ const sendMail = (email, subject, msg) => {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log(error);
-                throw new ForbiddenException(error.message)
+                //throw new ForbiddenException(error.message)
+console.log("Ignored Google email error so we can test locally!");
             } else {
                 console.log('Email sent: ' + info.response);
             }
